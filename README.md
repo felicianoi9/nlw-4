@@ -51,6 +51,7 @@ import "./database";
 {
     "type": "sqlite",    
     "database": "./src/database/database.sqlite",
+    "migrations":["./src/database/migrations/**.ts"],
     "cli": {
         "migrationsDir": "./src/database/migrations"
     }
@@ -94,8 +95,69 @@ export class CreateUsers1614102367036 implements MigrationInterface {
     }
 
 }
->> run: yarn typeorm migration:run
+>> run: yarn typeorm migration:run ( run all migrates )
+>> run: yarn typeorm migration:revert ( undo last migrate )
 
+## Refatoring the code
+> Add controllers and models folders into src folder
+> created routes.ts file
+import { Router } from "express";
+import { UserController } from "./controllers/UserController";
+
+const router = Router();
+
+const userController = new UserController();
+
+router.post("/users", userController.create);
+
+export { router };
+
+> changes server.ts file:
+import "reflect-metadata";
+import express from 'express';
+import "./database";
+import { router } from "./routes";
+
+const app = express();
+
+app.use(express.json());
+app.use(router);
+
+app.listen(3333, ()=> console.log("server is running"));
+
+> uncomment  lines into tsconfig.json file:
+>> "strictPropertyInitialization": false (change true to false value)
+>> "experimentalDecorators": true,
+>> "emitDecoratorMetadata": true,
+> run: yarn add uuid
+> run: yarn add @types/uuid -D
+> Created User.ts into models folder
+import { Column, CreateDateColumn, Entity, PrimaryColumn } from "typeorm";
+import { v4 as uuid } from "uuid";
+@Entity("users")
+class User {
+
+    @PrimaryColumn()
+    readonly id: string;
+
+    @Column()
+    name: string;
+
+    @Column()
+    email: string;
+
+    @CreateDateColumn()
+    created_at: Date;
+
+    constructor(){
+        if(!this.id){
+            this.id = uuid()
+        }
+    }
+}
+export { User };
+
+>> #jornadainfinita
 
 
 

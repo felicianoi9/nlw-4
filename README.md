@@ -35,7 +35,7 @@ app.listen(3333, ()=> console.log("server is running"));
     "type": "sqlite",    
     "database": "./src/database/database.sqlite"
 }
-> The ./src/database/databse.sqlite file: will create, when run yarn dev command, after the configurarion this files ( index.ts and ormconfig.json)
+> The ./src/database/databse.sqlite file be will create, when run yarn dev command, after the configurarion this files ( index.ts and ormconfig.json)
 > create ./src/database/index.ts:
 import { createConnection } from "typeorm";
 
@@ -46,6 +46,56 @@ import "reflect-metadata";
 import express from 'express';
 import "./database";
 //
+> create database migrate:
+>> Updata ormconfig 
+{
+    "type": "sqlite",    
+    "database": "./src/database/database.sqlite",
+    "cli": {
+        "migrationsDir": "./src/database/migrations"
+    }
+}
+>> run yarn typeorm migration:create -n CreateUsers:
+import {MigrationInterface, QueryRunner , Table} from "typeorm";
+
+export class CreateUsers1614102367036 implements MigrationInterface {
+
+    public async up(queryRunner: QueryRunner): Promise<void> {
+        await queryRunner.createTable(
+            new Table({
+                name: "users",
+                columns: [
+                    {
+                        name: "id",
+                        type: "uuid",
+                        isPrimary: true,
+                    },
+                    {
+                        name: "name",
+                        type: "varchar",
+                    },
+                    {
+                        name: "email",
+                        type: "varchar",
+                    },
+                    {
+                        name: "created_at",
+                        type: "timestamp",
+                        default: "now()",
+                    },
+
+                ]
+            })
+        ) 
+    }
+
+    public async down(queryRunner: QueryRunner): Promise<void> {
+        await queryRunner.dropTable("users");
+    }
+
+}
+>> run: yarn typeorm migration:run
+
 
 
 

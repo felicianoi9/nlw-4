@@ -166,6 +166,11 @@ export { User };
 > create migration: yarn typeorm migration:create -n CreateSurveys
 > run:  yarn typeorm migration:run
 > created Survey model
+> create SurveyController.ts and SurveysRepository.ts
+> creates routes post("/surveys") and post("/surveys")
+> run: yarn dev and verify across insominia
+
+
 
 
 

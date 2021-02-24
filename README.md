@@ -159,6 +159,13 @@ export { User };
 
 >> #jornadainfinita
 
+## Day three - Repository
+> create src/repositories folder
+> create src/repositories/UsersRepository.ts
+> Into UserController.ts, change User to UsersRepository across getCustomRepository
+> create migration: yarn typeorm migration:create -n CreateSurveys
+> run:  yarn typeorm migration:run
+
 
 
 

@@ -47,7 +47,8 @@ import express from 'express';
 import "./database";
 //
 > create database migrate:
->> Updata ormconfig 
+>
+> Updata ormconfig 
 {
     "type": "sqlite",    
     "database": "./src/database/database.sqlite",
@@ -56,7 +57,8 @@ import "./database";
         "migrationsDir": "./src/database/migrations"
     }
 }
->> run yarn typeorm migration:create -n CreateUsers:
+>
+> run yarn typeorm migration:create -n CreateUsers:
 import {MigrationInterface, QueryRunner , Table} from "typeorm";
 
 export class CreateUsers1614102367036 implements MigrationInterface {
@@ -95,8 +97,10 @@ export class CreateUsers1614102367036 implements MigrationInterface {
     }
 
 }
->> run: yarn typeorm migration:run ( run all migrates )
->> run: yarn typeorm migration:revert ( undo last migrate )
+>
+> run: yarn typeorm migration:run ( run all migrates )
+>
+> run: yarn typeorm migration:revert ( undo last migrate )
 
 ## Refatoring the code
 > Add controllers and models folders into src folder
@@ -126,9 +130,12 @@ app.use(router);
 app.listen(3333, ()=> console.log("server is running"));
 
 > uncomment  lines into tsconfig.json file:
->> "strictPropertyInitialization": false (change true to false value)
->> "experimentalDecorators": true,
->> "emitDecoratorMetadata": true,
+>
+> "strictPropertyInitialization": false (change true to false value)
+>
+> "experimentalDecorators": true,
+>
+> "emitDecoratorMetadata": true,
 > run: yarn add uuid
 > run: yarn add @types/uuid -D
 > Created User.ts into models folder
@@ -167,8 +174,62 @@ export { User };
 > run:  yarn typeorm migration:run
 > created Survey model
 > create SurveyController.ts and SurveysRepository.ts
-> creates routes post("/surveys") and post("/surveys")
+> creates routes post("/surveys") and get("/surveys")
 > run: yarn dev and verify across insominia
+
+### Testes Automatizados:
+1. Testes unitários
+> TDD desenvolvimento orientado a testes
+>
+> Começa pela funcionalidade;
+>
+> Finalizando no código em si;
+2. Testes de Integração
+> Teste da funcionalidade completa ( exemplo: teste de acesso do usuário: cadastro, login, recuperação de senha, autenticação ) - vais ser utilizado neste evento.
+3. Ponta a pont ( E2E )
+> Mais utilizado no frontend;
+4. Backend usa o teste unitário e de integração
+
+> install jest: yarn add jest @types/jest -D
+> jest configuration: yarn jest --init
+>
+> Answers: yes yes node no v8 yes 
+
+### jest.config
+> bail: true
+> // testEnvironment: "node"
+> tests path:
+>
+> change:
+> // testMatch: [
+  //   "**/__tests__/**/*.[jt]s?(x)",
+  //   "**/?(*.)+(spec|test).[tj]s?(x)"
+  // ],
+>
+> to 
+> 
+> testMatch: ["**/__tests__/*.test.ts"],
+
+> create ./src/__tests__  folder
+> create ./src/__tests__/first.test.ts   file
+> yarn add ts-jest -D
+> into jest.config:
+>
+> describe("First", () => {
+    it("Deve ser possível somar 2 números", () => {
+        expect(2 + 2).toBe(4);
+    });
+});
+> run yarn test
+>
+>  change: // preset: undefined, to preset: "ts-jest",
+> [https://jestjs.io/docs/en/getting-started]jest documentation:
+
+> [https://www.npmjs.com/package/supertest] using supertest:
+Install and types
+> yarn add supertest @types/supertest -D
+
+#focopraticagrupo
 
 
 

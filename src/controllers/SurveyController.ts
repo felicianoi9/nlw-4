@@ -6,26 +6,17 @@ class SurveyController {
     async index (request:Request, response: Response){
         const surveyRepository = getCustomRepository(SurveysRepository);
 
-        const users = await surveyRepository.find();
-        return response.json(users);
+        const surveys = await surveyRepository.find();
+        return response.json(surveys);
     }
     async create(request: Request, response: Response){
         const { title, description } = request.body;        
         
         const surveyRepository = getCustomRepository(SurveysRepository);
 
-        // const userAlreadyExists = await surveyRepository.findOne({
-            
-        // });
-
-        // if (userAlreadyExists){
-        //     return response.status(400).json({
-        //         error: "User already exists."
-        //     });
-        // }
-
         const survey = surveyRepository.create({
-            title, description
+            title, 
+            description,
         });
 
         await surveyRepository.save(survey);
